@@ -198,15 +198,7 @@ function SplitBlock({ label, sub, value, pct, color }) {
   );
 }
 
-function AdviceCard({ title, body }) {
-  return (
-    <Card className="p-5">
-      <div className="font-serif-display text-lg mb-2">{title}</div>
-      <p className="text-sm text-[#1F3A34]/70 leading-relaxed">{body}</p>
-    </Card>
-  );
-}
-
+// ---------- SIP calculator ----------
 function SipCalculator() {
   const [monthly, setMonthly] = useState(5000);
   const [years, setYears] = useState(10);
@@ -329,11 +321,10 @@ function GoalPlanner() {
 
   const amountNeeded = Math.max(price - current, 0);
   const requiredMonthly = months > 0 ? amountNeeded / months : amountNeeded;
-  const safeCapacity = income * 0.2; // matches the 20% "save" bucket from dashboard
+  const safeCapacity = income * 0.2;
   const capacityRatio = safeCapacity > 0 ? requiredMonthly / safeCapacity : 0;
 
-  // Simple loan/EMI estimate for big-ticket items (bike/car/land/home): 10% p.a., over remaining "months" as tenure floor of 12
-  const loanPrincipal = price * 0.8; // assume 20% down payment
+  const loanPrincipal = price * 0.8;
   const tenureMonths = Math.max(months, 12);
   const loanRate = 0.10 / 12;
   const emi =
@@ -507,6 +498,15 @@ function NumberField({ label, value, setValue, prefix }) {
   );
 }
 
+function AdviceCard({ title, body }) {
+  return (
+    <Card className="p-5">
+      <div className="font-serif-display text-lg mb-2">{title}</div>
+      <p className="text-sm text-[#1F3A34]/70 leading-relaxed">{body}</p>
+    </Card>
+  );
+}
+
 // ---------- Learn tab ----------
 const TOPICS = [
   {
@@ -526,4 +526,5 @@ const TOPICS = [
   },
   {
     title: "Emergency Fund",
-    body: "Money set aside purely for the unexpected — job loss, medical bills, urgent repairs. It should sit somewhere safe and e
+    body: "Money set aside purely for the unexpected — job loss, medical bills, urgent repairs. It should sit somewhere safe and easily accessible, like a regular savings account or a liquid mutual fund, not locked up in risky investments.",
+    good: "Good for: basic financial survival before 
