@@ -1,4 +1,4 @@
-index.jsx
+
 import React, { useState, useRef, useEffect } from "react";
 
 // ---------- Small helpers ----------
