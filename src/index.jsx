@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 // ---------- Small helpers ----------
 const inr = (n) =>
@@ -527,4 +527,43 @@ const TOPICS = [
   {
     title: "Emergency Fund",
     body: "Money set aside purely for the unexpected — job loss, medical bills, urgent repairs. It should sit somewhere safe and easily accessible, like a regular savings account or a liquid mutual fund, not locked up in risky investments.",
-    good: "Good for: basic financial survival before 
+    good: "Good for: basic financial survival before you start any other goal.",
+    }
+];
+
+function Learn() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <Eyebrow>Learn the basics</Eyebrow>
+        <h1 className="font-serif-display text-3xl mb-2">Financial Concepts Made Simple</h1>
+      </div>
+      <div className="grid md:grid-cols-2 gap-6">
+        {TOPICS.map((t, idx) => (
+          <Card key={idx} className="p-6 flex flex-col justify-between">
+            <div>
+              <h3 className="font-serif-display text-xl mb-3">{t.title}</h3>
+              <p className="text-sm text-[#1F3A34]/70 leading-relaxed mb-4">{t.body}</p>
+            </div>
+            <div className="text-xs font-semibold text-[#B08A2E]">{t.good}</div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---------- News & Ask Tab ----------
+function NewsAndAsk() {
+  return (
+    <div className="space-y-6">
+      <Eyebrow>Stay updated</Eyebrow>
+      <h1 className="font-serif-display text-3xl mb-4">Market Insights & Queries</h1>
+      <Card className="p-6">
+        <p className="text-sm text-[#1F3A34]/70">
+          This section will feature live educational financial news and an interactive Q&A forum soon.
+        </p>
+      </Card>
+    </div>
+  );
+        }
