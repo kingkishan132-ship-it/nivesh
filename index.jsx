@@ -527,4 +527,4 @@ const TOPICS = [
   },
   {
     title: "Emergency Fund",
-    body: "Money set aside purely for the unexpected — job loss, medical bills, urgent repairs. It should sit somewhere safe and ea
+    body: "Money set aside purely for the unexpected — job loss, medical bills, urgent repairs. It should sit somewhere safe and e
