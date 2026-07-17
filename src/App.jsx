@@ -23,8 +23,15 @@ const Eyebrow = ({ children }) => (
 export default function App() {
   const [tab, setTab] = useState("dashboard");
 
+  const navigationItems = [
+    ["dashboard", "Dashboard", "📊"],
+    ["goals", "Buy a Goal", "🎯"],
+    ["learn", "Learn", "📚"],
+    ["news", "News & Ask", "💬"],
+  ];
+
   return (
-    <div className="min-h-screen w-full bg-[#F4EFE4] text-[#1F3A34] font-[Inter]">
+    <div className="min-h-screen w-full bg-[#F4EFE4] text-[#1F3A34] font-[Inter] pb-24 md:pb-10">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
         .font-serif-display { font-family: 'Fraunces', serif; }
@@ -45,13 +52,10 @@ export default function App() {
               </div>
             </div>
           </div>
+          
+          {/* Desktop Navigation (Hidden on Mobile) */}
           <nav className="hidden md:flex gap-1 text-sm">
-            {[
-              ["dashboard", "Dashboard"],
-              ["goals", "Buy a Goal"],
-              ["learn", "Learn"],
-              ["news", "News & Ask"],
-            ].map(([key, label]) => (
+            {navigationItems.map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setTab(key)}
@@ -68,6 +72,26 @@ export default function App() {
         </div>
       </header>
 
+      {/* Mobile Navigation Bar (Sticky Bottom - Super Premium Feel on Phones) */}
+      <div className="md:hidden fixed bottom-4 left-4 right-4 bg-[#1F3A34] text-[#F4EFE4] rounded-2xl shadow-xl px-4 py-3 z-50 flex justify-around items-center">
+        {navigationItems.map(([key, label, icon]) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className="flex flex-col items-center justify-center flex-1 transition-all"
+          >
+            <span className="text-lg mb-1">{icon}</span>
+            <span
+              className={`text-[10px] tracking-wide transition-all ${
+                tab === key ? "text-[#D9C27E] font-bold" : "text-[#F4EFE4]/60"
+              }`}
+            >
+              {label}
+            </span>
+          </button>
+        ))}
+      </div>
+
       <main className="max-w-6xl mx-auto px-6 py-10">
         {tab === "dashboard" && <Dashboard />}
         {tab === "goals" && <GoalPlanner />}
@@ -75,7 +99,7 @@ export default function App() {
         {tab === "news" && <NewsAndAsk />}
       </main>
 
-      <footer className="border-t border-[#1F3A34]/10 mt-16">
+      <footer className="border-t border-[#1F3A34]/10 mt-16 pb-10">
         <div className="max-w-6xl mx-auto px-6 py-6 text-xs text-[#1F3A34]/50 flex flex-wrap gap-2 justify-between">
           <span>Nivesh is an educational tool, not a licensed financial advisor.</span>
           <span>Markets carry risk. Past returns don't guarantee future ones.</span>
@@ -303,20 +327,11 @@ function GoalPlanner() {
   const [current, setCurrent] = useState(10000);
   const [months, setMonths] = useState(12);
   const [income, setIncome] = useState(50000);
-  const [useLoan, setUseLoan] = useState(false);
 
   const amountNeeded = Math.max(price - current, 0);
   const requiredMonthly = months > 0 ? amountNeeded / months : amountNeeded;
   const safeCapacity = income * 0.2;
   const capacityRatio = safeCapacity > 0 ? requiredMonthly / safeCapacity : 0;
-
-  const loanPrincipal = price * 0.8;
-  const tenureMonths = Math.max(months, 12);
-  const loanRate = 0.10 / 12;
-  const emi =
-    (loanPrincipal * loanRate * Math.pow(1 + loanRate, tenureMonths)) /
-    (Math.pow(1 + loanRate, tenureMonths) - 1);
-  const emiRatio = income > 0 ? emi / income : 0;
 
   let verdict, verdictColor, verdictBody;
   if (capacityRatio <= 0.8) {
@@ -335,12 +350,14 @@ function GoalPlanner() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap gap-2">
+      <Eyebrow>Planner</Eyebrow>
+      <h2 className="font-serif-display text-2xl">Plan your next major purchase</h2>
+      <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 scrollbar-none">
         {GOAL_PRESETS.map((g) => (
           <button
             key={g.key}
             onClick={() => { setGoal(g); setPrice(g.typical); }}
-            className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
+            className={`px-4 py-2 rounded-full text-sm font-medium border whitespace-nowrap transition ${
               goal.key === g.key ? "bg-[#1F3A34] text-[#F4EFE4]" : "hover:bg-[#1F3A34]/5"
             }`}
           >
@@ -392,17 +409,27 @@ function AdviceCard({ title, body }) {
 
 function Learn() {
   return (
-    <Card className="p-6">
-      <h3 className="font-serif-display text-xl mb-3">SIP — Systematic Investment Plan</h3>
-      <p className="text-sm opacity-70">A disciplined way to invest a fixed amount regularly into mutual funds.</p>
-    </Card>
+    <div className="space-y-6">
+      <Eyebrow>Financial Knowledge</Eyebrow>
+      <h2 className="font-serif-display text-3xl">Learn the basics of wealth creation</h2>
+      <Card className="p-6 space-y-4">
+        <h3 className="font-serif-display text-xl">SIP — Systematic Investment Plan</h3>
+        <p className="text-sm opacity-70 leading-relaxed">
+          A disciplined way to invest a fixed amount regularly into mutual funds. It helps you average out the buying cost of market shares over time through power of compounding.
+        </p>
+      </Card>
+    </div>
   );
 }
 
 function NewsAndAsk() {
   return (
-    <Card className="p-6">
-      <p className="text-sm opacity-70">Interactive community Q&A and market updates coming soon!</p>
-    </Card>
+    <div className="space-y-6">
+      <Eyebrow>Community</Eyebrow>
+      <h2 className="font-serif-display text-3xl">Market Updates & Ask Advisor</h2>
+      <Card className="p-6">
+        <p className="text-sm opacity-70">Interactive community Q&A and latest market updates are coming soon in the next release!</p>
+      </Card>
+    </div>
   );
 }
