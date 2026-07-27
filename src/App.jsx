@@ -177,26 +177,42 @@ function AiInsightCard() {
     let cancelled = false;
     async function fetchInsight() {
       try {
-        const response = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "claude-sonnet-4-6",
-            max_tokens: 150,
-            system:
-              "You are Nivesh's insight generator. Never use emojis. Reply with exactly one short, practical, general personal-finance tip relevant to someone in India, under 30 words, one plain sentence, no heading and no preamble. Rotate the topic across saving, investing, debt, insurance, taxes, and budgeting rather than always picking the same one.",
-            messages: [{ role: "user", content: "Give me one fresh financial tip." }],
-          }),
-        });
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              system_instruction: {
+                parts: [{
+                  text: "You are Nivesh's insight generator. Never use emojis. Reply with exactly one short, practical, general personal-finance tip relevant to someone in India, under 30 words, one plain sentence, no heading and no preamble."
+                }]
+              },
+              contents: [{
+                parts: [{ text: "Give me one fresh financial tip." }]
+              }]
+            })
+          }
+        );
+
         const data = await response.json();
-        const text = data.content.filter((b) => b.type === "text").map((b) => b.text).join(" ").trim();
-        if (!cancelled) setInsight(text || "Most people underestimate how much small subscriptions add up. Review your bank statement once a month.");
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!cancelled) {
+          setInsight(text || "Most people underestimate how much small subscriptions add up. Review your bank statement once a month.");
+        }
       } catch (e) {
         if (!cancelled) setInsight("Most people underestimate how much small subscriptions add up. Review your bank statement once a month.");
       } finally {
         if (!cancelled) setLoading(false);
       }
     }
+    fetchInsight();
+    return () => { cancelled = true; };
+  }, []);
+
     fetchInsight();
     return () => { cancelled = true; };
   }, []);
