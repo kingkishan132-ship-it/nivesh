@@ -210,12 +210,9 @@ function AiInsightCard() {
       }
     }
     fetchInsight();
-    return () => { cancelled = true; };
+    return () => { cancelled = true;};
   }, []);
-
-    fetchInsight();
-    return () => { cancelled = true; };
-  }, []);
+    
 
   return (
     <Card className="hover-lift p-5 flex items-start gap-4 animate-fade-up">
