@@ -1,3 +1,4 @@
+import { formatCurrency, formatPercentage, formatCompactNumber } from './formatters';
 import React, { useState, useRef, useEffect } from "react";
 import {
   PieChart, Pie, Cell, BarChart, Bar, LineChart, Line,
