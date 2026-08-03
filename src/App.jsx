@@ -6,8 +6,7 @@ import {
 } from "recharts";
 
 // ---------- Helpers ----------
-const inr = (n) =>
-  "Rs. " + Math.round(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+const inr = (n) => formatCurrency(n);
 
 const PALETTE = ["#1F3A34", "#B08A2E", "#6E8B7A", "#8C6D46", "#3E7A5D", "#B5453B", "#5A7D9A"];
 
