@@ -4,12 +4,13 @@ import StickyNavBar from "./StickyNavBar";
 import Footer from "./Footer";
 import useMobileBreakpoint from "./useMobileBreakpoint";
 import { COLORS } from "./constants";
-import { formatCurrency, formatPercentage, formatCompactNumber } from './formatters';
+import { formatCurrency, formatPercentage, formatCompactNumber } from "./formatters";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  PieChart, Pie, Cell, BarChart, Bar, LineChart, Line,
-  XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid,
+import { 
+  PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, 
+  XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid 
 } from "recharts";
+
 
 // ---------- Helpers ----------
 const inr = (n) => formatCurrency(n);
