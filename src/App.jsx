@@ -1,3 +1,4 @@
+import { calculateSip } from "./finance/sip";
 import AccessibleText from "./AccessibleText";
 import FormattedCurrency from "./FormattedCurrency";
 import StickyNavBar from "./StickyNavBar";
@@ -444,13 +445,15 @@ function AdviceCard({ title, body }) {
 function SipCalculator() {
   const [monthly, setMonthly] = useState(5000);
   const [years, setYears] = useState(10);
-  const [rate, setRate] = useState(12);
-  const months = years * 12;
-  const r = rate / 100 / 12;
-  const futureValue = monthly * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
-  const invested = monthly * months;
-  const gains = futureValue - invested;
+  const sipResult = calculateSip({
+  monthlyAmount: monthly,
+  annualReturnPercent: rate,
+  years,
+});
 
+const futureValue = sipResult.estimatedValue;
+const invested = sipResult.investedAmount;
+const gains = sipResult.estimatedGain;
   return (
     <section>
       <Eyebrow>Calculator</Eyebrow>
