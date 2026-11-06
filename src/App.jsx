@@ -512,10 +512,17 @@ function GoalPlanner({ goDecide }) {
   };
 
   const loanPrincipal = price * 0.8;
-  const tenureMonths = Math.max(months, 12);
-  const loanRate = 0.10 / 12;
-  const emi = (loanPrincipal * loanRate * Math.pow(1 + loanRate, tenureMonths)) / (Math.pow(1 + loanRate, tenureMonths) - 1);
-  const emiRatio = income > 0 ? emi / income : 0;
+const tenureMonths = Math.max(months, 12);
+const loanRatePercent = 10;
+
+const emiResult = calculateEmi({
+  loanPrincipal,
+  annualInterestPercent: loanRatePercent,
+  months: tenureMonths,
+});
+
+const emi = emiResult.monthlyEmi;
+const emiRatio = income > 0 ? emi / income : 0;
 
   let verdict, verdictColor, verdictBody;
   if (capacityRatio <= 0.8) {
