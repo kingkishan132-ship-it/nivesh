@@ -1163,10 +1163,16 @@ function EmiVsSip() {
   const [sipRate, setSipRate] = useState(12);
 
   const months = years * 12;
-  const r = loanRate / 100 / 12;
-  const emi = (price * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
-  const totalPaid = emi * months;
-  const totalInterest = totalPaid - price;
+
+const emiResult = calculateEmi({
+  loanPrincipal: price,
+  annualInterestPercent: loanRate,
+  months,
+});
+
+const emi = emiResult.monthlyEmi;
+const totalPaid = emiResult.totalPayment;
+const totalInterest = emiResult.totalInterest; 
 
   const sr = sipRate / 100 / 12;
   const sipFutureValue = emi * ((Math.pow(1 + sr, months) - 1) / sr) * (1 + sr);
