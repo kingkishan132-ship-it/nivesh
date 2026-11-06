@@ -1,3 +1,4 @@
+import { calculateEmi } from "./finance/emi";
 import { calculateSip } from "./finance/sip";
 import AccessibleText from "./AccessibleText";
 import FormattedCurrency from "./FormattedCurrency";
