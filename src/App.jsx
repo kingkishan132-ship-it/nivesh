@@ -445,6 +445,7 @@ function AdviceCard({ title, body }) {
 function SipCalculator() {
   const [monthly, setMonthly] = useState(5000);
   const [years, setYears] = useState(10);
+const [rate, setRate] = useState(12);
   const sipResult = calculateSip({
   monthlyAmount: monthly,
   annualReturnPercent: rate,
