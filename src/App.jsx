@@ -1223,12 +1223,21 @@ function InvestmentComparison() {
     { name: "Gold", rate: 8, color: "#B08A2E" },
     { name: "Stocks (long-term avg)", rate: 14, color: "#B5453B" },
   ];
-  const months = years * 12;
-  const data = assumptions.map((a) => {
-    const r = a.rate / 100 / 12;
-    const fv = monthly * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
-    return { name: a.name, value: Math.round(fv), color: a.color };
+ 
+const data = assumptions.map((a) => {
+  const result = calculateSip({
+    monthlyAmount: monthly,
+    annualReturnPercent: a.rate,
+    years,
   });
+
+  return {
+    name: a.name,
+    value: Math.round(result.estimatedValue),
+    color: a.color,
+  };
+});
+
 
   return (
     <Card className="p-6 md:p-8">
